@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 class RestaurantSerializer(serializers.ModelSerializer):
     employees = ShortEmployeeSerializer(many=True)
+    # employee_set = ShortEmployeeSerializer(many=True)
 
     class Meta:
         model = Restaurant
