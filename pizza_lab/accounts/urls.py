@@ -1,10 +1,7 @@
 from django.urls import path
 
-from pizza_lab.accounts.views import EmployeesListApiView  # type: ignore
-
-from pizza_lab.accounts.views import DemoApiView
+from pizza_lab.accounts.views import UserListApiView  # type: ignore
 
 urlpatterns = [
-    path("employees/", EmployeesListApiView.as_view(), name="api list employees"),
-    path("details/", DemoApiView.as_view(), name="details")
+    path("", UserListApiView.as_view(), name="users api list"),
 ]

@@ -1,17 +1,16 @@
 from rest_framework import serializers
-from pizza_lab.accounts.models import Employee  # type: ignore
-
-from pizza_lab.restaurants.serializers import ShortRestaurantSerializer
+from pizza_lab.accounts.models import CustomUser  # type: ignore
 
 
-class ShortEmployeeSerializer(serializers.ModelSerializer):
+class ShortCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Employee
-        fields = "__all__"
+        model = CustomUser
+        fields = ['email', 'is_staff', 'is_active']
 
-
-class DemoSerializer(serializers.Serializer):
-    employees = ShortEmployeeSerializer(many=True)
-    employees_count = serializers.IntegerField()
-    restaurants = ShortRestaurantSerializer(many=True)
-    first_restaurant = serializers.CharField()
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        request_user = self.context['request'].user
+        if not request_user.is_superuser:
+            ret.pop('is_active', None)
+            ret.pop('is_staff', None)
+        return ret
