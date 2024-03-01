@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -25,6 +26,8 @@ INSTALLED_APPS = [
 
     # Tird-party Apps
     "rest_framework",
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',
 
     # Application Apps
     "pizza_lab.accounts",
@@ -73,6 +76,18 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
